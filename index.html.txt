@@ -1,0 +1,37 @@
+<button onclick="startListening()">🎤 Ask Me</button>
+<p id="output"></p>
+
+<script>
+const answers = {
+  story: "I’m someone who enjoys building things from scratch and learning by doing...",
+  superpower: "My superpower is adaptability...",
+  grow: "The top three areas I want to grow in are communication, leadership, and technical depth.",
+  misconception: "People sometimes think I’m quiet, but I’m actually very proactive.",
+  limits: "I push my limits by taking on challenges that are slightly beyond my comfort zone."
+};
+
+function startListening() {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = "en-US";
+  recognition.start();
+
+  recognition.onresult = (event) => {
+    const text = event.results[0][0].transcript.toLowerCase();
+    let response = "That’s a great question. Let me think.";
+
+    if (text.includes("life")) response = answers.story;
+    else if (text.includes("superpower")) response = answers.superpower;
+    else if (text.includes("grow")) response = answers.grow;
+    else if (text.includes("misconception")) response = answers.misconception;
+    else if (text.includes("limit")) response = answers.limits;
+
+    document.getElementById("output").innerText = response;
+    speak(response);
+  };
+}
+
+function speak(text) {
+  const msg = new SpeechSynthesisUtterance(text);
+  window.speechSynthesis.speak(msg);
+}
+</script>
