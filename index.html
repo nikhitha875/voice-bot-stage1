@@ -1,44 +1,80 @@
-<button onclick="startListening()">🎤 Ask Me</button>
-<p id="output"></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Voice Bot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+      background: #f5f5f5;
+    }
+    button {
+      font-size: 18px;
+      padding: 12px 24px;
+      cursor: pointer;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
 
-<script>
-const answers = {
-  story: "I'm someone who enjoys building things from scratch and learning by doing.",
-  superpower: "My superpower is adaptability.",
-  grow: "The top three areas I want to grow in are communication, leadership, and technical skills.",
-  misconception: "People sometimes think I’m quiet, but I’m actually very proactive.",
-  limits: "I push my limits by taking on challenges slightly beyond my comfort zone."
-};
+  <h1>🎤 My Voice Bot</h1>
+  <p>Click the button and ask me a question</p>
 
-function startListening() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  <button onclick="startListening()">Ask Me</button>
 
-  if (!SpeechRecognition) {
-    alert("Speech Recognition not supported in this browser");
-    return;
-  }
+  <p id="output"></p>
 
-  const recognition = new SpeechRecognition();
-  recognition.lang = "en-US";
-  recognition.start();
+  <script>
+    const answers = {
+      story: "I’m someone who enjoys building things from scratch and learning by doing.",
+      superpower: "My superpower is adaptability — I learn fast and stay calm under pressure.",
+      grow: "The top three areas I want to grow in are communication, leadership, and technical depth.",
+      misconception: "People sometimes think I’m quiet, but I’m actually very proactive.",
+      limits: "I push my limits by taking on challenges that are slightly beyond my comfort zone."
+    };
 
-  recognition.onresult = (event) => {
-    const text = event.results[0][0].transcript.toLowerCase();
-    let response = "That’s a great question. Let me think.";
+    function startListening() {
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    if (text.includes("life")) response = answers.story;
-    else if (text.includes("superpower")) response = answers.superpower;
-    else if (text.includes("grow")) response = answers.grow;
-    else if (text.includes("misconception")) response = answers.misconception;
-    else if (text.includes("limit")) response = answers.limits;
+      if (!SpeechRecognition) {
+        alert("Speech Recognition not supported. Please use Google Chrome.");
+        return;
+      }
 
-    document.getElementById("output").innerText = response;
-    speak(response);
-  };
-}
+      const recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.start();
 
-function speak(text) {
-  const msg = new SpeechSynthesisUtterance(text);
-  window.speechSynthesis.speak(msg);
-}
-</script>
+      recognition.onresult = (event) => {
+        const text = event.results[0][0].transcript.toLowerCase();
+        let response = "That’s a great question. Let me think.";
+
+        if (text.includes("life")) response = answers.story;
+        else if (text.includes("superpower")) response = answers.superpower;
+        else if (text.includes("grow")) response = answers.grow;
+        else if (text.includes("misconception")) response = answers.misconception;
+        else if (text.includes("limit")) response = answers.limits;
+
+        document.getElementById("output").innerText = response;
+        speak(response);
+      };
+    }
+
+    function speak(text) {
+      const msg = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(msg);
+    }
+  </script>
+
+</body>
+</html>
+
+
